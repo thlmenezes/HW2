@@ -6,7 +6,9 @@ class MoviesController < ApplicationController
     redirect = false
 
     @sort_by = params[:sort_by] || session[:sort_by]
-    @ratings = params[:ratings] || session[:ratings] || Hash.new { |hash,key| 1 }
+    @ratings = params[:ratings] ||
+              session[:ratings] ||
+              Hash[@all_ratings.collect { |item| [item, 1] }]
 
     if params[:sort_by] != session[:sort_by]
       session[:sort_by] = params[:sort_by]
