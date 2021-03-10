@@ -4,7 +4,12 @@ class MoviesController < ApplicationController
     @all_ratings = Movie.all_ratings
     @sort_by = params[:sort_by]
     @ratings = params[:ratings] || Hash.new { |hash,key| 1 }
-    @movies = Movie.all.sort_by { |movie| movie[@sort_by] }
+
+    search_keys = @ratings.keys
+
+    @movies = search_keys.empty? ? Movie.all : search_keys.map { |rate| Movie.where(rating: rate) }.flatten.compact
+    
+    @movies = @movies.sort_by { |movie| movie[@sort_by] }
   end
 
   def show
