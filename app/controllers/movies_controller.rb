@@ -2,7 +2,8 @@
 class MoviesController < ApplicationController
   def index
     @all_ratings = Movie.all_ratings
-    @movies = Movie.all.sort_by { |movie| movie[params[:sort_by]] }
+    @sort_by = params[:sort_by]
+    @movies = Movie.all.sort_by { |movie| movie[@sort_by] }
   end
 
   def show
