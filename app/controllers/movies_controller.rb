@@ -3,6 +3,7 @@ class MoviesController < ApplicationController
   def index
     @all_ratings = Movie.all_ratings
     @sort_by = params[:sort_by]
+    @ratings = params[:ratings] || Hash.new { |hash,key| 1 }
     @movies = Movie.all.sort_by { |movie| movie[@sort_by] }
   end
 
