@@ -2,8 +2,26 @@
 class MoviesController < ApplicationController
   def index
     @all_ratings = Movie.all_ratings
-    @sort_by = params[:sort_by]
-    @ratings = params[:ratings] || Hash.new { |hash,key| 1 }
+
+    redirect = false
+
+    @sort_by = params[:sort_by] || session[:sort_by]
+    @ratings = params[:ratings] || session[:ratings] || Hash.new { |hash,key| 1 }
+
+    if params[:sort_by] != session[:sort_by]
+      session[:sort_by] = params[:sort_by]
+      redirect = true
+    end
+    
+    if params[:ratings] != session[:ratings]
+      session[:ratings] = params[:ratings]
+      redirect = true
+    end
+
+    if redirect
+      flash.keep
+      redirect_to movies_path sort_by:@sort_by, ratings:@ratings
+    end
 
     search_keys = @ratings.keys
 
