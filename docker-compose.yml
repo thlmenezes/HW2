@@ -1,0 +1,11 @@
+version: "3"
+services:
+  es_rails:
+    build: .
+    command: rails server -p 3000 -b '0.0.0.0'
+    volumes:
+      - ./:/opt/fullstack_app
+    ports:
+      - "3000:3000"
+    environment:
+      BUNDLE_APP_CONFIG: /opt/fullstack_app/.bundle
